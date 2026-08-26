@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Gamified</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scanlines"></div>
+    <div class="container">
+        <header>
+            <div class="title-row">
+                <div class="level-badge">
+                    <span class="badge-label">RANK</span>
+                    <span id="level-name">NOOB</span>
+                </div>
+                <h1>LIFE<span class="accent">_</span>GAMIFIED</h1>
+                <div class="xp-display">
+                    <span class="badge-label">XP</span>
+                    <span id="xp-value">0</span>
+                </div>
+            </div>
+            <div class="progress-wrapper">
+                <div class="progress-labels">
+                    <span id="level-current">LVL 1</span>
+                    <span id="percent">0%</span>
+                    <span id="level-next">LVL 2</span>
+                </div>
+                <div class="progress-container">
+                    <div id="progress-bar"></div>
+                    <div class="progress-glow"></div>
+                </div>
+            </div>
+            <div class="stats-row">
+                <div class="stat-box">
+                    <span class="stat-label">STREAK</span>
+                    <span id="streak" class="stat-value">0🔥</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">TODAY</span>
+                    <span id="today-pct" class="stat-value">0%</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">TOTAL CHECKS</span>
+                    <span id="total-checks" class="stat-value">0</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="table-wrapper">
+            <table id="habit-table">
+                <thead>
+                    <tr id="date-row">
+                        <th class="habit-col">⚔️ HABIT</th>
+                    </tr>
+                </thead>
+                <tbody id="habit-body"></tbody>
+            </table>
+        </div>
+
+        <footer class="site-footer">
+            <button id="reset-btn" class="reset-btn">⚠ RESET ALL DATA</button>
+            <p class="footer-note">Data saved locally in your browser</p>
+        </footer>
+    </div>
+
+    <div id="level-up-toast" class="toast hidden">
+        <span class="toast-icon">🏆</span>
+        <div>
+            <strong>LEVEL UP!</strong>
+            <p id="toast-msg"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
