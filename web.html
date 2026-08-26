@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Two Cuts — Halal Chicken &amp; Beef</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal: #1C1815;
+    --charcoal-2: #241F1B;
+    --bone: #EDE6D6;
+    --bone-dim: #C9C0AC;
+    --ember: #C4432E;
+    --ember-dim: #8f3122;
+    --brass: #B8934A;
+    --pine: #3E4E42;
+    --line: rgba(237,230,214,0.14);
+    --display: 'Anton', sans-serif;
+    --body: 'Fraunces', serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+  body{
+    background: var(--bone);
+    color: var(--charcoal);
+    font-family: var(--body);
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+
+  a{ color: inherit; text-decoration: none; }
+  img,svg{ display:block; max-width:100%; }
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ember);
+  }
+  .eyebrow.on-dark{ color: var(--brass); }
+
+  h1,h2,h3{ font-family: var(--display); text-transform: uppercase; letter-spacing: 0.01em; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position: sticky; top:0; z-index: 50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 1.1rem 5vw;
+    background: rgba(28,24,21,0.94);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand{
+    font-family: var(--display);
+    font-size: 1.35rem;
+    color: var(--bone);
+    letter-spacing: 0.03em;
+  }
+  .brand span{ color: var(--ember); }
+  nav ul{ list-style:none; display:flex; gap: 2rem; }
+  nav a{
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bone-dim);
+    transition: color .2s;
+  }
+  nav a:hover, nav a:focus-visible{ color: var(--ember); outline: none; }
+  .nav-toggle{ display:none; background:none; border:none; color:var(--bone); font-size:1.5rem; cursor:pointer; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position: relative;
+    background: var(--charcoal);
+    color: var(--bone);
+    padding: 6.5rem 5vw 5rem;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-chart{
+    position: absolute;
+    right: -8%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 620px;
+    opacity: 0.16;
+    pointer-events: none;
+  }
+  .hero-inner{ position: relative; max-width: 900px; }
+  .hero h1{
+    font-size: clamp(3rem, 9vw, 6.4rem);
+    line-height: 0.98;
+    margin: 1rem 0 1.6rem;
+  }
+  .hero h1 em{ font-style: normal; color: var(--ember); }
+  .hero p.lede{
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    color: var(--bone-dim);
+    max-width: 46ch;
+    margin-bottom: 2.4rem;
+  }
+  .hero-ctas{ display:flex; gap: 1rem; flex-wrap: wrap; }
+  .btn{
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.95rem 1.7rem;
+    border: 1px solid var(--ember);
+    display: inline-block;
+    transition: transform .18s ease, background .18s ease, color .18s ease;
+  }
+  .btn-fill{ background: var(--ember); color: var(--bone); }
+  .btn-fill:hover{ transform: translateY(-2px); background: var(--ember-dim); }
+  .btn-line{ color: var(--bone); border-color: var(--line); }
+  .btn-line:hover{ transform: translateY(-2px); border-color: var(--bone); }
+
+  .marquee{
+    background: var(--ember);
+    color: var(--bone);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--line);
+  }
+  .marquee div{
+    display: inline-block;
+    padding: 0.55rem 0;
+    animation: scroll 22s linear infinite;
+  }
+  .marquee span{ padding: 0 1.5rem; }
+  @keyframes scroll{ from{ transform: translateX(0);} to{ transform: translateX(-50%);} }
+
+  /* ---------- HALAL BAND ---------- */
+  .promise{
+    background: var(--bone);
+    padding: 4.5rem 5vw;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    max-width: 1180px;
+    margin: 0 auto;
+    border-bottom: 1px solid rgba(28,24,21,0.1);
+  }
+  .seal{ width: 130px; height: 130px; }
+  .promise h2{
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    color: var(--charcoal);
+    margin-bottom: 0.9rem;
+  }
+  .promise p{ color: #4a443c; max-width: 62ch; font-size: 1.02rem; }
+  .promise p strong{ color: var(--ember); }
+
+  /* ---------- MENU ---------- */
+  .menu{
+    background: var(--charcoal);
+    color: var(--bone);
+    padding: 5.5rem 5vw 6rem;
+    position: relative;
+  }
+  .menu-head{ max-width: 1180px; margin: 0 auto 3rem; }
+  .menu-head h2{
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    margin-top: 0.6rem;
+  }
+  .tabs{
+    display:flex; gap: 0.75rem; margin-top: 2.2rem; flex-wrap: wrap;
+  }
+  .tab-btn{
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--bone-dim);
+    padding: 0.85rem 1.5rem;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+  .tab-btn[aria-selected="true"]{
+    background: var(--ember);
+    border-color: var(--ember);
+    color: var(--bone);
+  }
+  .tab-btn:hover{ border-color: var(--ember); }
+
+  .menu-grid{
+    max-width: 1180px; margin: 0 auto;
+    display: none;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .menu-grid.active{ display: grid; }
+  .dish{
+    padding: 1.6rem 1.2rem;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    position: relative;
+  }
+  .dish:nth-child(odd){ border-right: 1px solid var(--line); }
+  .dish-name{ font-family: var(--body); font-weight: 600; font-size: 1.08rem; }
+  .dish-desc{ font-size: 0.92rem; color: var(--bone-dim); margin-top: 0.35rem; max-width: 40ch; }
+  .dish-price{ font-family: var(--mono); font-size: 0.95rem; color: var(--brass); white-space: nowrap; }
+  .dish-weight{ font-family: var(--mono); font-size: 0.68rem; color: var(--bone-dim); display:block; margin-top: 0.25rem; text-align: right; }
+
+  @media (max-width: 720px){
+    .menu-grid{ grid-template-columns: 1fr; }
+    .dish:nth-child(odd){ border-right: none; }
+  }
+
+  /* ---------- SPOTLIGHT ---------- */
+  .spotlight{
+    background: var(--pine);
+    color: var(--bone);
+    padding: 5.5rem 5vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  .spotlight h2{ font-size: clamp(2rem,4.5vw,3.2rem); margin: 0.8rem 0 1.2rem; line-height: 1; }
+  .spotlight p{ color: rgba(237,230,214,0.82); max-width: 50ch; margin-bottom: 1.6rem; }
+  .spotlight-meta{ display:flex; gap: 2rem; font-family: var(--mono); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .spotlight-meta div span{ display:block; color: var(--brass); font-size: 1.1rem; margin-top: 0.25rem; }
+  .spotlight-art{ width: 100%; }
+
+  @media (max-width: 860px){
+    .spotlight{ grid-template-columns: 1fr; }
+    .spotlight-art{ order: -1; max-width: 320px; margin: 0 auto; }
+  }
+
+  /* ---------- VISIT ---------- */
+  .visit{
+    background: var(--bone);
+    padding: 5.5rem 5vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .visit h2{ font-size: clamp(1.8rem,4vw,2.6rem); margin-bottom: 1.4rem; }
+  .visit-block{ margin-bottom: 1.8rem; }
+  .visit-block h3{
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ember); margin-bottom: 0.5rem; font-weight: 500;
+  }
+  .visit-block p{ font-size: 1.02rem; color: #35312b; }
+  .hours-row{ display:flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed rgba(28,24,21,0.18); font-family: var(--mono); font-size: 0.85rem; }
+  .hours-row span:last-child{ color: var(--ember-dim); }
+
+  @media (max-width: 780px){ .visit{ grid-template-columns: 1fr; } }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background: var(--charcoal);
+    color: var(--bone-dim);
+    padding: 3rem 5vw 2rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    border-top: 1px solid var(--line);
+  }
+  footer .brand{ font-size: 1.1rem; }
+  footer p{ font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; }
+
+  /* reveal on scroll */
+  .reveal{ opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 640px){
+    .promise{ grid-template-columns: 1fr; text-align: left; }
+    .seal{ width: 90px; height: 90px; }
+    nav ul{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">TWO <span>CUTS</span></div>
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="#promise">Halal</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <svg class="hero-chart" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="none" stroke="#EDE6D6" stroke-width="1.4">
+      <path d="M120 180 Q100 130 150 100 Q220 60 300 90 Q380 120 380 200 Q380 270 330 300 L340 380 Q340 420 300 420 L280 420 Q260 420 260 390 L260 320 Q220 330 190 310 L170 380 Q165 410 135 410 L120 410 Q100 410 105 380 L130 300 Q90 260 100 210 Z"/>
+      <line x1="150" y1="150" x2="40" y2="130"/>
+      <line x1="200" y1="110" x2="120" y2="60"/>
+      <line x1="330" y1="140" x2="440" y2="100"/>
+      <line x1="350" y1="230" x2="460" y2="230"/>
+      <line x1="300" y1="380" x2="420" y2="400"/>
+      <line x1="180" y1="380" x2="80" y2="410"/>
+    </g>
+  </svg>
+  <div class="hero-inner reveal in">
+    <p class="eyebrow on-dark">Halal grill house — est. karachi</p>
+    <h1>Chicken.<br>Beef.<br><em>Nothing else.</em></h1>
+    <p class="lede">Two proteins, sourced from certified halal suppliers, cut by hand and cooked over open flame. No lamb, no seafood, no shortcuts — just the two things we've spent a decade getting right.</p>
+    <div class="hero-ctas">
+      <a href="#menu" class="btn btn-fill">See the menu</a>
+      <a href="#visit" class="btn btn-line">Find us</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div>
+    <span>100% HALAL CERTIFIED</span><span>◆</span><span>CHICKEN</span><span>◆</span><span>BEEF</span><span>◆</span><span>NO LAMB · NO SEAFOOD · NO PORK — EVER</span><span>◆</span>
+    <span>100% HALAL CERTIFIED</span><span>◆</span><span>CHICKEN</span><span>◆</span><span>BEEF</span><span>◆</span><span>NO LAMB · NO SEAFOOD · NO PORK — EVER</span><span>◆</span>
+  </div>
+</div>
+
+<section class="promise reveal" id="promise">
+  <svg class="seal" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Halal certified seal">
+    <circle cx="60" cy="60" r="56" fill="none" stroke="#B8934A" stroke-width="2"/>
+    <circle cx="60" cy="60" r="48" fill="none" stroke="#B8934A" stroke-width="1"/>
+    <path d="M60 34 A20 20 0 1 0 74 66 A16 16 0 1 1 60 34Z" fill="#B8934A"/>
+    <text x="60" y="98" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#B8934A" letter-spacing="1">100% HALAL</text>
+  </svg>
+  <div>
+    <p class="eyebrow">Our word on it</p>
+    <h2>Every cut, verified.</h2>
+    <p>All chicken and beef served at Two Cuts is sourced exclusively from <strong>certified halal abattoirs</strong>, hand-slaughtered per Islamic law, and kept separate from prep to plate. Our kitchen has never handled pork or alcohol-based marinades — not as policy, but as the whole reason this place exists. Ask any server for our supplier's certification; we keep it posted at the counter, not just on the wall.</p>
+  </div>
+</section>
+
+<section class="menu reveal" id="menu">
+  <div class="menu-head">
+    <p class="eyebrow on-dark">The full board</p>
+    <h2>Pick your protein.</h2>
+    <div class="tabs" role="tablist" aria-label="Menu category">
+      <button class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-chicken" id="tab-chicken">01 — Chicken</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-beef" id="tab-beef">02 — Beef</button>
+    </div>
+  </div>
+
+  <div class="menu-grid active" id="panel-chicken" role="tabpanel" aria-labelledby="tab-chicken">
+    <div class="dish">
+      <div><div class="dish-name">Charcoal Chicken Boti</div><div class="dish-desc">Boneless thigh, yogurt-chili marinade, seared over live coal.</div></div>
+      <div><div class="dish-price">Rs 950</div><span class="dish-weight">250g</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Chicken Seekh Kebab</div><div class="dish-desc">Hand-minced, hand-skewered, grilled to order.</div></div>
+      <div><div class="dish-price">Rs 780</div><span class="dish-weight">2 skewers</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Malai Tikka</div><div class="dish-desc">Cream and green chili marinade, mild heat, smoky finish.</div></div>
+      <div><div class="dish-price">Rs 920</div><span class="dish-weight">250g</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Peri Peri Chicken Half</div><div class="dish-desc">Whole-leg quarter, flame roasted, peri glaze on the side.</div></div>
+      <div><div class="dish-price">Rs 1,150</div><span class="dish-weight">half bird</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Chicken Karahi</div><div class="dish-desc">Wok-tossed with tomato, ginger, and whole green chili.</div></div>
+      <div><div class="dish-price">Rs 1,450</div><span class="dish-weight">serves 2</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Chicken Shawarma Platter</div><div class="dish-desc">Layered spit chicken, garlic sauce, pickles, saffron rice.</div></div>
+      <div><div class="dish-price">Rs 890</div><span class="dish-weight">1 platter</span></div>
+    </div>
+  </div>
+
+  <div class="menu-grid" id="panel-beef" role="tabpanel" aria-labelledby="tab-beef" hidden>
+    <div class="dish">
+      <div><div class="dish-name">Smoked Beef Brisket</div><div class="dish-desc">12-hour smoke, dry rub, sliced against the grain.</div></div>
+      <div><div class="dish-price">Rs 1,650</div><span class="dish-weight">300g</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Beef Seekh Kebab</div><div class="dish-desc">Hand-minced with roasted cumin and black pepper.</div></div>
+      <div><div class="dish-price">Rs 850</div><span class="dish-weight">2 skewers</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Beef Chapli Kebab</div><div class="dish-desc">Peshawar-style, flat and crisp-edged, pomegranate seed.</div></div>
+      <div><div class="dish-price">Rs 820</div><span class="dish-weight">2 kebabs</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Beef Boti Karahi</div><div class="dish-desc">Slow-cooked cubed beef, tomato-ginger base, finished in the wok.</div></div>
+      <div><div class="dish-price">Rs 1,650</div><span class="dish-weight">serves 2</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Beef Nihari</div><div class="dish-desc">Overnight slow braise, marrow-rich, served with ginger and chili.</div></div>
+      <div><div class="dish-price">Rs 1,350</div><span class="dish-weight">bowl</span></div>
+    </div>
+    <div class="dish">
+      <div><div class="dish-name">Beef Shawarma Wrap</div><div class="dish-desc">Spit-roasted beef, tahini, pickled turnip, flatbread.</div></div>
+      <div><div class="dish-price">Rs 680</div><span class="dish-weight">1 wrap</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="spotlight reveal">
+  <div>
+    <p class="eyebrow on-dark">The house dish</p>
+    <h2>Smoked Beef Brisket</h2>
+    <p>Twelve hours over indirect coal, dry-rubbed the night before with black pepper, coriander seed, and smoked paprika. We rest it for twenty minutes before every slice — cut against the grain, plated with charred onion and pickled chili.</p>
+    <div class="spotlight-meta">
+      <div>Smoke time<span>12 hrs</span></div>
+      <div>Heat level<span>Medium</span></div>
+      <div>Serves<span>1–2</span></div>
+    </div>
+  </div>
+  <svg class="spotlight-art" viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="none" stroke="#EDE6D6" stroke-width="1.6" opacity="0.85">
+      <ellipse cx="150" cy="150" rx="120" ry="55" />
+      <path d="M40 150 Q70 100 150 95 Q230 100 260 150" />
+      <path d="M60 165 Q150 205 240 165" />
+      <line x1="90" y1="130" x2="90" y2="170"/>
+      <line x1="130" y1="118" x2="130" y2="182"/>
+      <line x1="170" y1="118" x2="170" y2="182"/>
+      <line x1="210" y1="130" x2="210" y2="170"/>
+    </g>
+    <text x="150" y="240" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#EDE6D6" letter-spacing="2">12 HR SMOKE</text>
+  </svg>
+</section>
+
+<section class="visit reveal" id="visit">
+  <div>
+    <p class="eyebrow">Come by</p>
+    <h2>Find Two Cuts.</h2>
+    <div class="visit-block">
+      <h3>Address</h3>
+      <p>Plot 14, Khayaban-e-Shahbaz, DHA Phase 6, Karachi</p>
+    </div>
+    <div class="visit-block">
+      <h3>Order &amp; enquiries</h3>
+      <p>+92 300 000 0000 · hello@twocuts.pk</p>
+    </div>
+    <a href="#" class="btn btn-fill" style="border-color: var(--ember); color: var(--bone);">Reserve a table</a>
+  </div>
+  <div>
+    <h3 class="visit-block-h" style="font-family: var(--mono); font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color: var(--ember); margin-bottom: 0.8rem;">Hours</h3>
+    <div class="hours-row"><span>Mon – Thu</span><span>12:00 PM – 11:00 PM</span></div>
+    <div class="hours-row"><span>Fri</span><span>2:30 PM – 12:00 AM</span></div>
+    <div class="hours-row"><span>Sat – Sun</span><span>12:00 PM – 12:00 AM</span></div>
+    <div class="hours-row" style="border-bottom:none;"><span>Kitchen closes</span><span>30 min before close</span></div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">TWO <span style="color: var(--ember);">CUTS</span></div>
+  <p>© 2026 TWO CUTS — HALAL CHICKEN &amp; BEEF, KARACHI</p>
+</footer>
+
+<script>
+  // Tab switching
+  const tabChicken = document.getElementById('tab-chicken');
+  const tabBeef = document.getElementById('tab-beef');
+  const panelChicken = document.getElementById('panel-chicken');
+  const panelBeef = document.getElementById('panel-beef');
+
+  function showChicken(){
+    tabChicken.setAttribute('aria-selected','true');
+    tabBeef.setAttribute('aria-selected','false');
+    panelChicken.classList.add('active');
+    panelChicken.hidden = false;
+    panelBeef.classList.remove('active');
+    panelBeef.hidden = true;
+  }
+  function showBeef(){
+    tabBeef.setAttribute('aria-selected','true');
+    tabChicken.setAttribute('aria-selected','false');
+    panelBeef.classList.add('active');
+    panelBeef.hidden = false;
+    panelChicken.classList.remove('active');
+    panelChicken.hidden = true;
+  }
+  tabChicken.addEventListener('click', showChicken);
+  tabBeef.addEventListener('click', showBeef);
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el=> io.observe(el));
+</script>
+
+</body>
+</html>
